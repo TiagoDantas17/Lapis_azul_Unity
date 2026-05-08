@@ -76,7 +76,10 @@ public class MovimentoPlayer : MonoBehaviour
         estaAgachado = Keyboard.current.leftCtrlKey.isPressed;
 
         // Salto
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && !estaAgachado)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame
+        && !estaAgachado
+        && Mathf.Abs(rb.linearVelocity.y) < 0.05f)
+
         {
             querSaltar = true;
         }
@@ -117,7 +120,11 @@ public class MovimentoPlayer : MonoBehaviour
         // === SALTO ===
         if (querSaltar)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            rb.linearVelocity = new Vector3(
+    rb.linearVelocity.x,
+    rb.linearVelocity.y,
+    rb.linearVelocity.z
+);
             rb.AddForce(Vector3.up * forcaSalto, ForceMode.Impulse);
             querSaltar = false;
         }
