@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class ControleCamera : MonoBehaviour
 {
     public Transform alvo;
     public float sensibilidade = 2.0f;
     public float distanciaMax = 5.0f;
     public LayerMask camadasObstaculos; // No Inspector, selecione "Default"
+
 
     private float rotacaoX = 0f;
     private float rotacaoY = 0f;

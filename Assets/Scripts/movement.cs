@@ -5,24 +5,26 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CapsuleCollider))]
 public class MovimentoPlayer : MonoBehaviour
 {
-    [Header("Movimento")]
+    [Header("=== MOVIMENTO ===")]
     public float velocidade = 6.0f;
     public float velocidadeCorrer = 10.0f;
     public float velocidadeAgachado = 3.0f;
 
-    [Header("Salto")]
-    public float forcaSalto = 6.0f;
-    public LayerMask camadaChao;
-    public float distanciaChao = 0.2f;
+    [Header("=== SALTO ===")]
+    public float forcaSalto = 8.0f;
+    public LayerMask camadaChao = 1; // Default layer
+    public float distanciaChao = 0.9f;
 
-    [Header("C�mara")]
-    public Transform cameraTransform; // Main Camera
-    public Transform cameraParaAgachar; // opcional, pode ser a PlayerView/c�mara se for filha do Player
-    public float baixarCameraAgachado = 0.5f;
+    [Header("=== AGACHAR ===")]
+    public Transform cameraTransform; // Arraste a CÂMERA aqui
+    public float alturaAgachadoMultiplicador = 0.5f;
+    public float baixarCameraAgachado = 0.8f;
 
-    [Header("Agachar")]
-    public float alturaAgachadoPercentagem = 0.55f;
+    [Header("=== FISICA ===")]
+    public float atritoChao = 5f;
+    public float rotacaoVelocidade = 10f;
 
+    // Privadas
     private Rigidbody rb;
     private CapsuleCollider capsule;
 
@@ -33,52 +35,53 @@ public class MovimentoPlayer : MonoBehaviour
 
     private float alturaNormal;
     private Vector3 centroNormal;
-    private float alturaAgachado;
-
     private Vector3 posicaoCameraNormal;
 
     void Start()
     {
+        // Components
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<CapsuleCollider>();
 
+        // Configurar Rigidbody
         rb.freezeRotation = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
+        // Salvar valores normais
         alturaNormal = capsule.height;
         centroNormal = capsule.center;
-        alturaAgachado = alturaNormal * alturaAgachadoPercentagem;
 
-        if (cameraParaAgachar != null)
+
+        if (cameraTransform != null)
+
         {
-            posicaoCameraNormal = cameraParaAgachar.localPosition;
+            posicaoCameraNormal = cameraTransform.localPosition;
         }
+
+        Debug.Log("✅ Player Controller iniciado!");
     }
 
     void Update()
     {
         if (Keyboard.current == null) return;
 
+        // === INPUTS ===
+        // WASD
         float moveX = (Keyboard.current.dKey.isPressed ? 1 : 0) - (Keyboard.current.aKey.isPressed ? 1 : 0);
         float moveZ = (Keyboard.current.wKey.isPressed ? 1 : 0) - (Keyboard.current.sKey.isPressed ? 1 : 0);
-
         inputs = new Vector2(moveX, moveZ).normalized;
 
-        bool shiftPressionado =
-            Keyboard.current.leftShiftKey.isPressed ||
-            Keyboard.current.rightShiftKey.isPressed;
+        // Controles
+        estaACorrer = Keyboard.current.leftShiftKey.isPressed && inputs.magnitude > 0.1f;
+        estaAgachado = Keyboard.current.leftCtrlKey.isPressed;
 
-        bool ctrlPressionado =
-            Keyboard.current.leftCtrlKey.isPressed ||
-            Keyboard.current.rightCtrlKey.isPressed;
-
-        estaAgachado = ctrlPressionado;
-        estaACorrer = shiftPressionado && !estaAgachado;
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && EstaNoChao() && !estaAgachado)
+        // Salto
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && !estaAgachado)
         {
             querSaltar = true;
         }
 
+        // Agachamento
         AtualizarAgachamento();
     }
 
@@ -86,38 +89,35 @@ public class MovimentoPlayer : MonoBehaviour
     {
         if (cameraTransform == null) return;
 
+        // === DIREÇÃO BASEADA NA CÂMERA ===
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
+        forward.y = 0; right.y = 0;
+        forward.Normalize(); right.Normalize();
 
-        forward.y = 0;
-        right.y = 0;
+        Vector3 direcaoDesejada = (forward * inputs.y + right * inputs.x).normalized;
 
-        forward.Normalize();
-        right.Normalize();
+        // === VELOCIDADE ===
+        float velAtual = estaAgachado ? velocidadeAgachado :
+                        (estaACorrer ? velocidadeCorrer : velocidade);
 
-        Vector3 direcaoDesejada = forward * inputs.y + right * inputs.x;
+        Vector3 velocidadeAlvo = direcaoDesejada * velAtual;
+        velocidadeAlvo.y = rb.linearVelocity.y;
 
-        float velocidadeAtual = velocidade;
+        // Aplicar movimento com atrito
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, velocidadeAlvo, Time.fixedDeltaTime * atritoChao);
 
-        if (estaAgachado)
+        // === ROTAÇÃO ===
+        if (direcaoDesejada.magnitude > 0.1f)
         {
-            velocidadeAtual = velocidadeAgachado;
-        }
-        else if (estaACorrer)
-        {
-            velocidadeAtual = velocidadeCorrer;
-        }
-
-        rb.MovePosition(rb.position + direcaoDesejada * velocidadeAtual * Time.fixedDeltaTime);
-
-        if (direcaoDesejada != Vector3.zero)
-        {
-            Quaternion rotacao = Quaternion.LookRotation(direcaoDesejada);
-            rb.MoveRotation(rotacao);
+            Quaternion rotAlvo = Quaternion.LookRotation(direcaoDesejada);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotAlvo, Time.fixedDeltaTime * rotacaoVelocidade);
         }
 
+        // === SALTO ===
         if (querSaltar)
         {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * forcaSalto, ForceMode.Impulse);
             querSaltar = false;
         }
@@ -125,35 +125,49 @@ public class MovimentoPlayer : MonoBehaviour
 
     bool EstaNoChao()
     {
-        Vector3 origem = transform.position + Vector3.up * 0.1f;
-        float tamanhoRaio = (capsule.height / 2f) + distanciaChao;
+        Vector3 origem = transform.position + capsule.center + Vector3.up * (capsule.height * 0.5f - 0.1f);
+        float distancia = distanciaChao + 0.1f;
 
-        return Physics.Raycast(origem, Vector3.down, tamanhoRaio, camadaChao);
+        bool noChao = Physics.Raycast(origem, Vector3.down, distancia, camadaChao);
+
+        // Debug visual
+        Debug.DrawRay(origem, Vector3.down * distancia, noChao ? Color.green : Color.red, 0.1f);
+
+        return noChao;
     }
 
-    void AtualizarAgachamento()
+    
+void AtualizarAgachamento()
     {
-        float alturaAlvo = estaAgachado ? alturaAgachado : alturaNormal;
+        // Altura alvo
+        float alvoAltura = estaAgachado ? alturaNormal * alturaAgachadoMultiplicador : alturaNormal;
 
-        capsule.height = Mathf.Lerp(capsule.height, alturaAlvo, Time.deltaTime * 10f);
+        // Suavizar altura
+        capsule.height = Mathf.Lerp(capsule.height, alvoAltura, Time.deltaTime * 12f);
 
-        float diferencaAltura = alturaNormal - capsule.height;
-        capsule.center = centroNormal - new Vector3(0, diferencaAltura / 2f, 0);
+        // Ajustar centro
+        float diff = (alturaNormal - capsule.height) * 0.5f;
+        capsule.center = new Vector3(centroNormal.x, centroNormal.y - diff, centroNormal.z);
 
-        if (cameraParaAgachar != null)
+        // === CÂMERA ===
+        if (cameraTransform != null)
         {
-            Vector3 posicaoAlvo = posicaoCameraNormal;
+            Vector3 posAlvo = estaAgachado
+                ? posicaoCameraNormal + Vector3.down * baixarCameraAgachado
+                : posicaoCameraNormal;
 
-            if (estaAgachado)
-            {
-                posicaoAlvo += Vector3.down * baixarCameraAgachado;
-            }
-
-            cameraParaAgachar.localPosition = Vector3.Lerp(
-                cameraParaAgachar.localPosition,
-                posicaoAlvo,
-                Time.deltaTime * 10f
+            cameraTransform.localPosition = Vector3.Lerp(
+                cameraTransform.localPosition,
+                posAlvo,
+                Time.deltaTime * 12f
             );
         }
+    }
+
+    // Debug info
+    void OnGUI()
+    {
+        GUI.color = Color.white;
+        GUI.Label(new Rect(10, 10, 300, 20), $"Vel: {rb.linearVelocity.magnitude:F1} | NoChao: {EstaNoChao()} | Agachado: {estaAgachado}");
     }
 }
