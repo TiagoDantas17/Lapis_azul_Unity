@@ -563,6 +563,7 @@ MonoBehaviour:
   baixarCameraAgachado: 0.5
   atritoChao: 5
   rotacaoVelocidade: 10
+  crouchFix: 0.34
 --- !u!136 &573136426
 CapsuleCollider:
   m_ObjectHideFlags: 0

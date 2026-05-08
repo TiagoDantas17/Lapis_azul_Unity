@@ -37,6 +37,8 @@ public class MovimentoPlayer : MonoBehaviour
     private Vector3 centroNormal;
     private Vector3 posicaoCameraNormal;
 
+    [SerializeField] private float crouchFix = 0.25f;
+
     void Start()
     {
         // Components
@@ -150,11 +152,11 @@ void AtualizarAgachamento()
         float alvoAltura = estaAgachado ? alturaNormal * alturaAgachadoMultiplicador : alturaNormal;
 
         // Suavizar altura
-        capsule.height = Mathf.Lerp(capsule.height, alvoAltura, Time.deltaTime * 12f);
+        capsule.height = /*Mathf.Lerp(capsule.height, alvoAltura, Time.deltaTime * 12f)*/  alvoAltura;
 
         // Ajustar centro
-        float diff = (alturaNormal - capsule.height) * 0.5f;
-        capsule.center = new Vector3(centroNormal.x, centroNormal.y - diff, centroNormal.z);
+        float diff = (alturaNormal - capsule.height) * crouchFix;
+        capsule.center = Vector3.down * diff;
 
         // === CÂMERA ===
         if (cameraTransform != null)
