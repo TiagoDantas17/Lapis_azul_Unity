@@ -558,7 +558,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f62e69f68b9064b4da9a2aeb57b0e55e, type: 2}
+      objectReference: {fileID: 2100000, guid: f5ab5e546ab96fc4dbdd4b9496413474, type: 2}
     - target: {fileID: 919132149155446097, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: m_Name
       value: cacifo_policia (4)
@@ -3330,7 +3330,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f62e69f68b9064b4da9a2aeb57b0e55e, type: 2}
+      objectReference: {fileID: 2100000, guid: f5ab5e546ab96fc4dbdd4b9496413474, type: 2}
     - target: {fileID: 919132149155446097, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: m_Name
       value: cacifo_policia (2)
@@ -4731,7 +4731,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f62e69f68b9064b4da9a2aeb57b0e55e, type: 2}
+      objectReference: {fileID: 2100000, guid: f5ab5e546ab96fc4dbdd4b9496413474, type: 2}
     - target: {fileID: 919132149155446097, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: m_Name
       value: cacifo_policia (1)
@@ -5267,7 +5267,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f62e69f68b9064b4da9a2aeb57b0e55e, type: 2}
+      objectReference: {fileID: 2100000, guid: f5ab5e546ab96fc4dbdd4b9496413474, type: 2}
     - target: {fileID: 919132149155446097, guid: b8b17476251bc3b4c812e493128ccf9a, type: 3}
       propertyPath: m_Name
       value: cacifo_policia (3)
