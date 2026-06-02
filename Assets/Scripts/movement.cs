@@ -41,6 +41,11 @@ public class MovimentoPlayer : MonoBehaviour
 
     void Start()
     {
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        
         // Components
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<CapsuleCollider>();
