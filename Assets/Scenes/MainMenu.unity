@@ -312,7 +312,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 53955868}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 827500450}
+        m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
+        m_MethodName: Sair
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &53955868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3423,7 +3435,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 548170766}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 827500450}
+        m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
+        m_MethodName: Continuar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &548170766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4496,7 +4520,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 789997415}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 827500450}
+        m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
+        m_MethodName: NovoJogo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &789997415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4996,6 +5032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a514173dcb6922d43a0284693900ae4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OptionsMenuController
+  nomeCenaJogo: SampleScene
   optionsPanel: {fileID: 898436728}
   mainMenuButtons: {fileID: 219644295}
   dropdownDificuldade: {fileID: 770466633}

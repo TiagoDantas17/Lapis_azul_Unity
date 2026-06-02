@@ -2,9 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenuController : MonoBehaviour
 {
+    [Header("Menu Principal")]
+    public string nomeCenaJogo = "SampleScene";
+
     [Header("Painéis")]
     public GameObject optionsPanel;
     public GameObject mainMenuButtons;
@@ -51,6 +55,8 @@ public class OptionsMenuController : MonoBehaviour
             "Normal",
             "Difícil"
         });
+
+        dropdownDificuldade.RefreshShownValue();
     }
 
     private void PrepararDropdownQualidade()
@@ -60,8 +66,10 @@ public class OptionsMenuController : MonoBehaviour
         dropdownQualidade.ClearOptions();
 
         List<string> opcoesQualidade = new List<string>(QualitySettings.names);
+
         dropdownQualidade.AddOptions(opcoesQualidade);
         dropdownQualidade.value = QualitySettings.GetQualityLevel();
+        dropdownQualidade.RefreshShownValue();
     }
 
     private void PrepararDropdownResolucao()
@@ -92,6 +100,49 @@ public class OptionsMenuController : MonoBehaviour
         dropdownResolucao.value = resolucaoAtualIndex;
         dropdownResolucao.RefreshShownValue();
     }
+
+    // -------------------------
+    // BOTÕES DO MENU PRINCIPAL
+    // -------------------------
+
+    public void Continuar()
+    {
+        if (SaveSystem.HasSave())
+        {
+            PlayerPrefs.SetInt("LoadGame", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("LoadGame", 0);
+        }
+
+        PlayerPrefs.Save();
+
+        SceneManager.LoadScene(nomeCenaJogo);
+    }
+
+    public void NovoJogo()
+    {
+        SaveSystem.DeleteSave();
+
+        PlayerPrefs.SetInt("LoadGame", 0);
+        PlayerPrefs.Save();
+
+        SceneManager.LoadScene(nomeCenaJogo);
+    }
+
+    public void Sair()
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    // -------------------------
+    // MENU DE OPÇÕES
+    // -------------------------
 
     public void AbrirOpcoes()
     {
