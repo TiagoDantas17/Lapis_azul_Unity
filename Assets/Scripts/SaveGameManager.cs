@@ -3,34 +3,45 @@ using UnityEngine;
 
 public class SaveGameManager : MonoBehaviour
 {
-    [Header("Referências")]
+    public static SaveGameManager Instance;
+
+    [Header("Referï¿½ncias")]
     public Transform player;
     public Inventory inventory;
 
-    [Header("Debug")]
-    public bool permitirGuardarComF5 = true;
-    public bool permitirCarregarComF9 = true;
+    [Header("Autosave")]
+    public bool autosaveAtivo = true;
+    public float tempoEntreAutosaves = 300f; // 300 segundos = 5 minutos
 
-    private void Start()
+    private float timerAutosave;
+
+    private List<string> collectedItemIDs = new List<string>();
+
+    private void Awake()
     {
+        Instance = this;
+
         int deveCarregar = PlayerPrefs.GetInt("LoadGame", 0);
 
         if (deveCarregar == 1)
         {
             CarregarJogo();
+
+            PlayerPrefs.SetInt("LoadGame", 0);
+            PlayerPrefs.Save();
         }
     }
 
     private void Update()
     {
-        if (permitirGuardarComF5 && Input.GetKeyDown(KeyCode.F5))
+        if (!autosaveAtivo) return;
+
+        timerAutosave += Time.deltaTime;
+
+        if (timerAutosave >= tempoEntreAutosaves)
         {
             GuardarJogo();
-        }
-
-        if (permitirCarregarComF9 && Input.GetKeyDown(KeyCode.F9))
-        {
-            CarregarJogo();
+            timerAutosave = 0f;
         }
     }
 
@@ -55,6 +66,7 @@ public class SaveGameManager : MonoBehaviour
         data.playerZ = player.position.z;
 
         data.inventoryItems = new List<string>(inventory.items);
+        data.collectedItemIDs = new List<string>(collectedItemIDs);
 
         SaveSystem.SaveGame(data);
     }
@@ -91,10 +103,29 @@ public class SaveGameManager : MonoBehaviour
             inventory.items.Clear();
             inventory.items.AddRange(data.inventoryItems);
         }
+
+        collectedItemIDs = new List<string>(data.collectedItemIDs);
+    }
+
+    public void RegistarObjetoApanhado(string itemID)
+    {
+        if (!collectedItemIDs.Contains(itemID))
+        {
+            collectedItemIDs.Add(itemID);
+        }
+
+        GuardarJogo();
+    }
+
+    public bool ObjetoJaApanhado(string itemID)
+    {
+        return collectedItemIDs.Contains(itemID);
     }
 
     public void ApagarSave()
     {
         SaveSystem.DeleteSave();
+
+        collectedItemIDs.Clear();
     }
 }

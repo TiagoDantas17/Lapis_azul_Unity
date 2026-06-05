@@ -10,6 +10,8 @@ public class SaveData
     public float playerZ;
 
     public List<string> inventoryItems = new List<string>();
+
+    public List<string> collectedItemIDs = new List<string>();
 }
 
 public static class SaveSystem
@@ -18,7 +20,7 @@ public static class SaveSystem
     {
         get
         {
-            return Path.Combine(Application.persistentDataPath, "lapis_azul_save.json");
+            return Path.Combine(Application.persistentDataPath, "lapis_azul_autosave.json");
         }
     }
 
@@ -28,14 +30,14 @@ public static class SaveSystem
 
         File.WriteAllText(SavePath, json);
 
-        Debug.Log("Jogo guardado em: " + SavePath);
+        Debug.Log("Autosave feito em: " + SavePath);
     }
 
     public static SaveData LoadGame()
     {
         if (!File.Exists(SavePath))
         {
-            Debug.Log("Não existe nenhum save.");
+            Debug.Log("Não existe autosave.");
             return null;
         }
 
@@ -43,7 +45,7 @@ public static class SaveSystem
 
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        Debug.Log("Jogo carregado.");
+        Debug.Log("Autosave carregado.");
 
         return data;
     }
@@ -58,7 +60,7 @@ public static class SaveSystem
         if (File.Exists(SavePath))
         {
             File.Delete(SavePath);
-            Debug.Log("Save apagado.");
+            Debug.Log("Autosave apagado.");
         }
     }
 }

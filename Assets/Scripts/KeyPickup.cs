@@ -1,29 +1,50 @@
 using UnityEngine;
-using TMPro;
 
 public class KeyPickup : MonoBehaviour
 {
+    [Header("Item")]
+    public string itemID = "Key_Cela_01";
+    public string itemName = "Key";
+
+    [Header("UI")]
     public GameObject pickupText;
 
     private bool playerInside = false;
-
     private Inventory inventory;
 
     private void Start()
     {
-        pickupText.SetActive(false);
-    }
+        if (pickupText != null)
+        {
+            pickupText.SetActive(false);
+        }
 
+        if (SaveGameManager.Instance != null && SaveGameManager.Instance.ObjetoJaApanhado(itemID))
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Update()
     {
         if (playerInside && Input.GetKeyDown(KeyCode.E))
         {
-            inventory.AddItem("Key");
+            if (inventory != null)
+            {
+                inventory.AddItem(itemName);
+            }
+
+            if (SaveGameManager.Instance != null)
+            {
+                SaveGameManager.Instance.RegistarObjetoApanhado(itemID);
+            }
+
+            if (pickupText != null)
+            {
+                pickupText.SetActive(false);
+            }
 
             Destroy(gameObject);
-
-            pickupText.SetActive(false);
         }
     }
 
@@ -35,7 +56,10 @@ public class KeyPickup : MonoBehaviour
 
             inventory = other.GetComponent<Inventory>();
 
-            pickupText.SetActive(true);
+            if (pickupText != null)
+            {
+                pickupText.SetActive(true);
+            }
         }
     }
 
@@ -45,7 +69,10 @@ public class KeyPickup : MonoBehaviour
         {
             playerInside = false;
 
-            pickupText.SetActive(false);
+            if (pickupText != null)
+            {
+                pickupText.SetActive(false);
+            }
         }
     }
 }
