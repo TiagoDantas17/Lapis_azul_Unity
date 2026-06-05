@@ -10,10 +10,10 @@ public class ControleCamera : MonoBehaviour
     public float sensibilidade = 2.0f;
 
     [Header("Estilo Ombro / Resident Evil")]
-    public float distancia = 2.0f;
-    public float alturaExtra = 0.15f;
-    public float offsetOmbro = 0.65f;
-    public float olharParaFrente = 3.0f;
+    public float distancia = 2.4f;
+    public float alturaExtra = 1.15f;
+    public float offsetOmbro = 0.45f;
+    public float olharParaFrente = 3.5f;
 
     [Header("Limites")]
     public float limiteBaixo = -25f;
@@ -39,6 +39,9 @@ public class ControleCamera : MonoBehaviour
 
     private void LateUpdate()
     {
+        // Se o jogo estiver pausado, a câmara não mexe
+        if (PauseMenuController.JogoPausado) return;
+
         if (alvo == null) return;
         if (Mouse.current == null) return;
 
@@ -70,15 +73,18 @@ public class ControleCamera : MonoBehaviour
         Vector3 direcaoCamera = posicaoDesejada - pontoAlvo;
         float distanciaCamera = direcaoCamera.magnitude;
 
-        if (Physics.SphereCast(
-            pontoAlvo,
-            raioColisao,
-            direcaoCamera.normalized,
-            out RaycastHit hit,
-            distanciaCamera,
-            camadasObstaculos))
+        if (camadasObstaculos.value != 0)
         {
-            posicaoDesejada = hit.point - direcaoCamera.normalized * afastarDaParede;
+            if (Physics.SphereCast(
+                pontoAlvo,
+                raioColisao,
+                direcaoCamera.normalized,
+                out RaycastHit hit,
+                distanciaCamera,
+                camadasObstaculos))
+            {
+                posicaoDesejada = hit.point - direcaoCamera.normalized * afastarDaParede;
+            }
         }
 
         transform.position = Vector3.Lerp(
