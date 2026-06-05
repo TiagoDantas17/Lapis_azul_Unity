@@ -1044,6 +1044,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43e407d4a56ab8478022ab6321b8068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyPickup
+  itemID: Key_Cela_01
+  itemName: Key
   pickupText: {fileID: 454359249}
 --- !u!65 &223016997
 BoxCollider:
@@ -1256,6 +1258,7 @@ GameObject:
   - component: {fileID: 330585546}
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
+  - component: {fileID: 330585548}
   - component: {fileID: 330585547}
   m_Layer: 0
   m_Name: Main Camera
@@ -1382,6 +1385,33 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f36fd863638fbf44ac8b7889f20469a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControleCamera
+  alvo: {fileID: 573136429}
+  sensibilidade: 2
+  distancia: 0.75
+  alturaExtra: 0.85
+  offsetOmbro: 0.45
+  olharParaFrente: 2
+  limiteBaixo: -25
+  limiteCima: 45
+  suavidadePosicao: 18
+  suavidadeRotacao: 18
+  camadasObstaculos:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  raioColisao: 0.15
+  afastarDaParede: 0.05
 --- !u!1 &339598811
 GameObject:
   m_ObjectHideFlags: 0
@@ -3187,19 +3217,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   velocidade: 4
-  velocidadeCorrer: 7
+  velocidadeCorrer: 5
   velocidadeAgachado: 3
   forcaSalto: 4
   camadaChao:
     serializedVersion: 2
     m_Bits: 1
   distanciaChao: 0.9
-  cameraTransform: {fileID: 1975652508}
-  alturaAgachadoMultiplicador: 0.3
-  baixarCameraAgachado: 0.5
-  atritoChao: 5
-  rotacaoVelocidade: 10
-  crouchFix: 0.34
+  cameraTransform: {fileID: 330585546}
 --- !u!136 &573136426
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3292,7 +3317,8 @@ Transform:
   m_LocalPosition: {x: 6.83, y: 1.367, z: -8.32}
   m_LocalScale: {x: 0.5, y: 0.9, z: 0.5}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1187806408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &573136430
@@ -6448,6 +6474,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1187806407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1187806408}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1187806408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187806407}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1111.5864, y: -0.018888846, z: 16.64}
+  m_LocalScale: {x: 2, y: 1.1111112, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 573136429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1210876989
 GameObject:
   m_ObjectHideFlags: 0
@@ -10072,8 +10129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SaveGameManager
   player: {fileID: 573136429}
   inventory: {fileID: 573136431}
-  permitirGuardarComF5: 1
-  permitirCarregarComF9: 1
+  autosaveAtivo: 1
+  tempoEntreAutosaves: 300
 --- !u!4 &1928692236
 Transform:
   m_ObjectHideFlags: 0
@@ -10285,7 +10342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1975652504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10300,10 +10357,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Camera_Player
   alvo: {fileID: 573136429}
   sensibilidade: 2
-  distanciaMax: 1.75
+  distancia: 1.2
+  alturaExtra: 0.15
+  offsetOmbro: -0.45
+  olharParaFrente: 1.5
+  limiteBaixo: -25
+  limiteCima: 45
+  suavidadePosicao: 12
+  suavidadeRotacao: 15
   camadasObstaculos:
     serializedVersion: 2
     m_Bits: 4294967295
+  raioColisao: 0.15
+  afastarDaParede: 0.05
 --- !u!114 &1975652505
 MonoBehaviour:
   m_ObjectHideFlags: 0
