@@ -1,9 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PuzzleInteractable : MonoBehaviour
 {
+    [Header("Puzzle")]
     public GameObject puzzlePanel;
+
+    [Header("UI")]
     public GameObject interactText;
+
+    [Header("Player")]
     public MovimentoPlayer playerMovement;
 
     private bool playerInside;
@@ -11,17 +17,26 @@ public class PuzzleInteractable : MonoBehaviour
     void Start()
     {
         if (interactText != null)
+        {
             interactText.SetActive(false);
+        }
+
+        if (puzzlePanel != null)
+        {
+            puzzlePanel.SetActive(false);
+        }
     }
 
     void Update()
     {
         if (playerInside)
         {
-            if (interactText != null)
+            if (interactText != null && puzzlePanel != null && !puzzlePanel.activeSelf)
+            {
                 interactText.SetActive(true);
+            }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
             {
                 OpenPuzzle();
             }
@@ -29,36 +44,62 @@ public class PuzzleInteractable : MonoBehaviour
         else
         {
             if (interactText != null)
+            {
                 interactText.SetActive(false);
+            }
         }
 
-        if (puzzlePanel.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        if (puzzlePanel != null && puzzlePanel.activeSelf)
         {
-            ClosePuzzle();
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                ClosePuzzle();
+            }
         }
     }
 
     void OpenPuzzle()
     {
+        if (puzzlePanel == null)
+        {
+            Debug.LogWarning("Falta ligar o Puzzle Panel no PuzzleInteractable.");
+            return;
+        }
+
         puzzlePanel.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        playerMovement.enabled = false;
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = false;
+        }
+        else
+        {
+            Debug.LogWarning("Falta ligar o Player Movement no PuzzleInteractable.");
+        }
 
         if (interactText != null)
+        {
             interactText.SetActive(false);
+        }
     }
 
     void ClosePuzzle()
     {
-        puzzlePanel.SetActive(false);
+        if (puzzlePanel != null)
+        {
+            puzzlePanel.SetActive(false);
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        playerMovement.enabled = true;
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,6 +107,11 @@ public class PuzzleInteractable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInside = true;
+
+            if (playerMovement == null)
+            {
+                playerMovement = other.GetComponent<MovimentoPlayer>();
+            }
         }
     }
 
@@ -76,7 +122,9 @@ public class PuzzleInteractable : MonoBehaviour
             playerInside = false;
 
             if (interactText != null)
+            {
                 interactText.SetActive(false);
+            }
         }
     }
 }
