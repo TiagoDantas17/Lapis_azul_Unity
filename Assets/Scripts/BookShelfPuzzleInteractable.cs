@@ -3,10 +3,9 @@ using UnityEngine.InputSystem;
 
 public class BookShelfPuzzleInteractable : MonoBehaviour
 {
-    public static bool PuzzleAberto { get; private set; }
-
     [Header("Livro necessário")]
     public string livroNecessario = "Livro_Censurado";
+    public bool exigirLivro = true;
 
     [Header("Puzzle")]
     public GameObject puzzlePanel;
@@ -16,32 +15,31 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
     public GameObject interactText;
     public GameObject faltaLivroText;
 
-    [Header("Player")]
-    public MovimentoPlayer playerMovement;
-    public ControleCamera cameraControl;
-
-    private bool playerInside = false;
+    private bool playerInside;
     private Inventory inventory;
+    private MovimentoPlayer playerMovement;
+    private ControleCamera cameraControl;
 
     private void Start()
     {
+        if (puzzlePanel != null)
+            puzzlePanel.SetActive(false);
+
         if (interactText != null)
             interactText.SetActive(false);
 
         if (faltaLivroText != null)
             faltaLivroText.SetActive(false);
-
-        if (puzzlePanel != null)
-            puzzlePanel.SetActive(false);
     }
 
     private void Update()
     {
         if (!playerInside) return;
+        if (Keyboard.current == null) return;
 
         if (puzzlePanel != null && puzzlePanel.activeSelf)
         {
-            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 FecharPuzzle();
             }
@@ -50,11 +48,9 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
         }
 
         if (interactText != null)
-        {
             interactText.SetActive(true);
-        }
 
-        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             TentarAbrirPuzzle();
         }
@@ -64,13 +60,28 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
     {
         if (inventory == null)
         {
-            Debug.LogWarning("O Player não tem Inventory.");
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+                inventory = player.GetComponent<Inventory>();
+        }
+
+        if (inventory == null)
+        {
+            Debug.LogWarning("Não encontrei o Inventory no Player.");
             return;
         }
 
-        if (!inventory.HasItem(livroNecessario))
+        if (exigirLivro && !inventory.HasItem(livroNecessario))
         {
-            MostrarFaltaLivro();
+            Debug.Log("Falta o livro necessário: " + livroNecessario);
+
+            if (faltaLivroText != null)
+            {
+                faltaLivroText.SetActive(true);
+                Invoke(nameof(EsconderFaltaLivro), 2f);
+            }
+
             return;
         }
 
@@ -79,10 +90,13 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
 
     private void AbrirPuzzle()
     {
-        PuzzleAberto = true;
+        if (puzzlePanel == null)
+        {
+            Debug.LogWarning("Falta ligar o Puzzle Panel no BookShelfPuzzleInteractable.");
+            return;
+        }
 
-        if (puzzlePanel != null)
-            puzzlePanel.SetActive(true);
+        puzzlePanel.SetActive(true);
 
         if (interactText != null)
             interactText.SetActive(false);
@@ -99,14 +113,17 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        if (puzzleManager == null)
+            puzzleManager = puzzlePanel.GetComponent<BookshelfOrderPuzzle>();
+
         if (puzzleManager != null)
             puzzleManager.IniciarPuzzle(inventory, this);
+        else
+            Debug.LogWarning("Falta ligar o Puzzle Manager no BookShelfPuzzleInteractable.");
     }
 
     public void FecharPuzzle()
     {
-        PuzzleAberto = false;
-
         if (puzzlePanel != null)
             puzzlePanel.SetActive(false);
 
@@ -120,15 +137,6 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void MostrarFaltaLivro()
-    {
-        if (faltaLivroText != null)
-        {
-            faltaLivroText.SetActive(true);
-            Invoke(nameof(EsconderFaltaLivro), 2f);
-        }
-    }
-
     private void EsconderFaltaLivro()
     {
         if (faltaLivroText != null)
@@ -140,12 +148,11 @@ public class BookShelfPuzzleInteractable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInside = true;
+
             inventory = other.GetComponent<Inventory>();
+            playerMovement = other.GetComponent<MovimentoPlayer>();
 
-            if (playerMovement == null)
-                playerMovement = other.GetComponent<MovimentoPlayer>();
-
-            if (cameraControl == null && Camera.main != null)
+            if (Camera.main != null)
                 cameraControl = Camera.main.GetComponent<ControleCamera>();
         }
     }
