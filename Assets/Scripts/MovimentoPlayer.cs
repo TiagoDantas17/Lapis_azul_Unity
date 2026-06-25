@@ -15,13 +15,13 @@ public class MovimentoPlayer : MonoBehaviour
     public float distanciaChao = 0.15f;
     public float tempoEntreSaltos = 0.25f;
 
-    [Header("C‚mara")]
+    [Header("CÔøΩmara")]
     public Transform cameraTransform;
 
-    [Header("AnimaÁıes")]
+    [Header("AnimaÔøΩÔøΩes")]
     public Animator animator;
 
-    [Header("InteraÁ„o")]
+    [Header("InteraÔøΩÔøΩo")]
     public Key teclaInteragir = Key.E;
     public float tempoBloqueadoAoInteragir = 0.6f;
 
@@ -240,19 +240,35 @@ public class MovimentoPlayer : MonoBehaviour
     {
         if (animator == null) return;
 
-        float speed = inputs.magnitude;
-
-        if (estaACorrer && speed > 0.1f && !estaAgachado)
-        {
-            speed = 2f;
-        }
-
+        // Se est√° interagindo, para tudo
         if (estaAInteragir)
         {
-            speed = 0f;
+            animator.SetFloat("Speed", 0f);
+            return;
         }
 
-        animator.SetFloat("Speed", speed);
+        // Calcula se est√° se movendo
+        bool estaSeMovendo = inputs.magnitude > 0.1f;
+
+        // Define valores claros para o Animator:
+        // 0 = Idle
+        // 1 = Andar
+        // 2 = Run
+
+        if (!estaSeMovendo)
+        {
+            animator.SetFloat("Speed", 0f); // Idle
+        }
+        else if (estaACorrer && !estaAgachado)
+        {
+            animator.SetFloat("Speed", 2f); // Run
+        }
+        else
+        {
+            animator.SetFloat("Speed", 1f); // Andar (ou andar agachado)
+        }
+
+        // Mant√©m os outros par√¢metros
         animator.SetBool("IsCrouching", estaAgachado);
         animator.SetBool("IsGrounded", noChao);
     }
