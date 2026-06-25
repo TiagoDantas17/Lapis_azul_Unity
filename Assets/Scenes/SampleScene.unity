@@ -3225,6 +3225,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -196
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -3233,6 +3237,10 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: " \"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3551,10 +3559,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -197
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: df953e5da65aac043bc0a9ea5bbe0714, type: 2}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: "\"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9362,10 +9378,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -198
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: df953e5da65aac043bc0a9ea5bbe0714, type: 2}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: "\"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28251,6 +28275,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -178
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -28259,6 +28287,18 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: "\"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36814,6 +36854,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -176
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -36822,6 +36866,10 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: " \"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42167,6 +42215,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -183
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -42175,6 +42227,10 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: " \"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43393,6 +43449,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -176
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -43401,6 +43461,10 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_text
+      value: " \"A porta est\xE1 trancada\""
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -47643,6 +47707,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3488795964865594843, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -178.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4473062216613414141, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -47651,6 +47719,14 @@ PrefabInstance:
       propertyPath: textoInteracao
       value: 
       objectReference: {fileID: 454359249}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899838341140483815, guid: 8de9a16c1b55719428382b9f87da9154, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
